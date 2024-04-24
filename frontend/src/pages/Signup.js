@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import styled from "styled-components";
-
 
 const PageWrapper = styled.div`
   display: flex;
@@ -80,15 +79,22 @@ const LinkButton = styled(Link)`
 `;
 
 const Signup = () => {
-  const [password, setPassword] = useState("")
-  const [userName, setUserName] = useState("")
-  const {signup, error, isLoading} = useSignup()
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const { signup, error, isLoading } = useSignup();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      // Passwords don't match, handle accordingly
+      console.log("Passwords do not match");
+      return;
+    }
 
-    await signup(userName, password)
-  }
+    await signup(userName, password);
+  };
+
   return (
     <PageWrapper>
       <ContentWrapper>
@@ -97,27 +103,36 @@ const Signup = () => {
             <Title>Sign Up</Title>
 
             <Label>User Name:</Label>
-            <Input 
+            <Input
               type="text"
               onChange={(e) => setUserName(e.target.value)}
               value={userName}
             />
 
             <Label>Password</Label>
-            <Input 
+            <Input
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
 
+            <Label>Confirm Password</Label>
+            <Input
+              type="password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmPassword}
+            />
+
             <Button disabled={isLoading}>Sign up</Button>
             {error && <ErrorMsg>{error}</ErrorMsg>}
           </Form>
-          <LinkButton to="/login" disabled={isLoading}>Log in</LinkButton>
+          <LinkButton to="/login" disabled={isLoading}>
+            Log in
+          </LinkButton>
         </FormWrapper>
       </ContentWrapper>
     </PageWrapper>
-  )
-}
+  );
+};
 
 export default Signup;

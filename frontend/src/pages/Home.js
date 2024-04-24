@@ -31,7 +31,7 @@ const Home = () => {
         <Header />
         <Container>
           <h2>{quote?.body}</h2>
-          <h4>{quote?.author}</h4>
+          <h4>-{quote?.author}</h4>
         </Container>
       </div>
     </div>

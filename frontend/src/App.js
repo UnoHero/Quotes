@@ -41,11 +41,11 @@ function App() {
             />
             <Route 
               path="/login"
-              element={!user ? <Login /> : <Navigate to="/home" />}
+              element={!user ? <Login /> : <Navigate to="/" />}
             />
             <Route 
               path="/signup"
-              element={!user ? <Signup /> : <Navigate to="/home" />}
+              element={!user ? <Signup /> : <Navigate to="/" />}
             />
           </Routes>
         </div>

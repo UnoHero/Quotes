@@ -4,49 +4,65 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useDelete } from "../hooks/useDelete"
 import { useUpdate } from "../hooks/useUpdate"
 
-const Wrapper = styled.div `
-  text-align: center;
+const Wrapper = styled.div`
   margin-top: 2.5%;
-`;
-
-const Quote = styled.div`
-  font-size: 24px;
-  margin-bottom: 10px;
-  max-width: 25%;
-`;
-
-const Author = styled.div `
-  font-size: 18px;
-  color: gray;
-`;
-
-const TextField = styled.input `
-  width: 40%;
-  max-width: 40%;
-  max-height: 50%;
-  height: 50px;
-`;
-const TextArea = styled.textarea `
-  width: 40%;
-  max-width: 40%;
-  max-height: 50%;
-  height: 50px;
-  margin-botton: 10px;
-`;
-
-const Button = styled.button `
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin: 0 5px;
-`;
-
-const ActionButtonsWrapper = styled.div `
   display: flex;
-  justefy-content: center;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
+  column-gap: 1.5rem;
+  padding-bottom: 20px;
+`;
+
+const Button = styled.button`
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+`;
+
+const TextArea = styled.textarea`
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+`;
+
+const TextField = styled.input`
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+`;
+
+const Quote = styled.p`
+  padding-top: 15px;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+`;
+
+const Author = styled.p`
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+`;
+
+const ActionButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  float: center;
+  button {
+    margin: 0 0.5rem;
+  }
 `;
 
 const UserQuotes = ({username, loggedInUser, quotes, fetchQuotes}) => {
@@ -57,6 +73,11 @@ const UserQuotes = ({username, loggedInUser, quotes, fetchQuotes}) => {
   const {update, updateError, updateIsLoading} = useUpdate();
   const [editingId, setEditingId] = useState("");
 
+  useEffect(() => {
+    console.log(quotes);
+  })
+
+  
   const handleAddQuote = async () => {
     try {
       if (!newQuote.trim()) {
@@ -143,6 +164,7 @@ const UserQuotes = ({username, loggedInUser, quotes, fetchQuotes}) => {
               <>
                 <Quote>{quote.body}</Quote>
                 <Author>- {quote.author}</Author>
+                {quote.createdAt !== quote.updatedAt && <span style={{ color: 'red' }}>Edited</span>}
               </>
             )}
             {user?.userName === username && (
@@ -157,4 +179,5 @@ const UserQuotes = ({username, loggedInUser, quotes, fetchQuotes}) => {
   );
 };
  
+
 export default UserQuotes;
