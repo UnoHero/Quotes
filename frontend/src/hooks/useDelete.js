@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useAuthContext } from "../hooks/useAuthContext";
 
 
+// a hook for deleting posts
+
 export const useDelete = () => {
   const { user } = useAuthContext();
   const [delError, setError] = useState(null)
@@ -10,8 +12,7 @@ export const useDelete = () => {
   const del = async (quoteId) => {
     setIsLoading(true)
     setError(null)
-
-
+      
       const response = await fetch (`http://127.0.0.1:6001/api/quotes/${quoteId}`, {
         method: "DELETE",
         headers: {
