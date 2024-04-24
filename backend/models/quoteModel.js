@@ -10,7 +10,8 @@ const quoteSchema = new Schema ({
   author: {
     type: String,
     required: true
-  }
+  },
+  likes: []
 }, { timestamps: true })
 
 module.exports = mongoose.model("Quote", quoteSchema)

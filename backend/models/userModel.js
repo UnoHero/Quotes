@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const validator = require("validator");
+const mongoose = require("mongoose")
+const bcrypt = require("bcrypt")
+const validator = require("validator")
 
 const Schema = mongoose.Schema
 
@@ -16,7 +16,7 @@ const userSchema = new Schema({
 })
 
 // static signup method
-userSchema.static.signup = async function(userName, password) {
+userSchema.statics.signup = async function(userName, password) {
 
   // validation
   if (!userName || !password) {
@@ -29,13 +29,13 @@ userSchema.static.signup = async function(userName, password) {
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt)
 
-  const user = await this.create({ userName, password: hash})
+  const user = await this.create({ userName, password: hash })
 
   return user
 }
 
 // static login method
-userSchema.static.login = async function(userName, password) {
+userSchema.statics.login = async function(userName, password) {
 
   if (!userName || !password) {
     throw Error("All fields must be filled")
@@ -43,12 +43,12 @@ userSchema.static.login = async function(userName, password) {
 
   const user = await this.findOne({ userName })
   if (!user) {
-    throw Error("Incorect User Name")
+    throw Error("Incorrect User Name")
   }
 
-  const match = await bcrypt.compare(password, user.passowrd)
+  const match = await bcrypt.compare(password, user.password)
   if (!match) {
-    throw Error("Incorect Password")
+    throw Error("Incorrect Password")
   }
 
   return user

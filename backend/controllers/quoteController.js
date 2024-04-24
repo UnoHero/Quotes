@@ -43,13 +43,11 @@ const getRandomQuote = async (req, res) => {
 
 // create new Quote
 const createQuote = async (req, res) => {
-  const { title, author, body } = req.body
+  const {author, body } = req.body
 
   let emptyFields = []
 
-  if(!title) {
-    emptyFields.push("title")
-  }
+ 
   if(!author) {
     emptyFields.push("author")
   }
@@ -62,7 +60,7 @@ const createQuote = async (req, res) => {
 
   // add doc to DB
   try {
-    const quote = await Quote.create({title, author, body})
+    const quote = await Quote.create({ author, body})
     res.status(200).json(quote)
   } catch (error) {
     res.status(400).json({error: error.message})
@@ -93,9 +91,7 @@ const updateQuote = async (req, res) => {
     return res.status(404).json({error: "No such Quote"})
   }
 
-  const quote = await Quote.findOneAndUpdate({_id: id}, {
-    ...req.body
-  })
+  const quote = await Quote.findOneAndUpdate({_id: id}, {body: req.body.newQuote})
 
   if (!quote) {
     return res.status(400).json({error: "no Such Quote"})
