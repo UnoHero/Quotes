@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useAuthContext } from "./useAuthContext"
 
+// signup hook
+
 export const useSignup = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
@@ -9,8 +11,10 @@ export const useSignup = () => {
   const signup = async (userName, password) => {
     setIsLoading(true)
     setError(null)
-
+    
+    // fetch signup
     const response = await fetch ("http://127.0.0.1:6001/api/user/signup", {
+
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ userName, password }) 
