@@ -21,16 +21,16 @@ router.get("/random", getRandomQuote)
 // GET a single post
 router.get("/:id", getQuote)
 
-// require auth
-router.use(requireAuth)
-
 // POST a new quote
-router.post("/", createQuote)
+router.post("/", requireAuth, createQuote)
 
 // DELETE a quote
-router.delete("/:id", deleteQuote)
+router.delete("/:id", requireAuth, deleteQuote)
 
 // UPDATE a quote
-router.patch("/:id", updateQuote)
+router.patch("/:id", requireAuth, updateQuote)
+
+// 404 error
+router.all("*",)
 
 module.exports = router;

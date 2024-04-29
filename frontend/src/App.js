@@ -1,26 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import React, {useEffect, useState} from "react"
+import { useAuthContext } from "./hooks/useAuthContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 
 import './index.css';
 
 function App() {
-  const [ user, setUser ] = useState()
-
-  useEffect (() => {
-    getUser();
-  }, [])
-
-  const getUser = () => {
-    const user = JSON.parse(localStorage.getItem("user"))
-    setUser(user)
-    console.log(user);
-  }
-
-
+  const { user } = useAuthContext()
 
   return (
     <div className="App">
@@ -46,6 +36,10 @@ function App() {
             <Route 
               path="/signup"
               element={!user ? <Signup /> : <Navigate to="/" />}
+            />
+            <Route
+              path="*"
+              element={<NotFound />}
             />
           </Routes>
         </div>

@@ -23,7 +23,7 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
-  const {userName, password} = req.body
+  const { userName, password } = req.body
   
   try {
     const user = await User.signup(userName, password)
@@ -31,10 +31,17 @@ const signupUser = async (req, res) => {
     // create a token
     const token = createToken(user._id)
 
-    res.status(200).json({userName, token})
-  }catch (error) {
-    res.status(400).json({error: error.message})
+    res.status(200).json({ userName, token })
+  } catch (error) {
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.userName) {
+      // If the error is a duplicate key error for the userName field
+      res.status(400).json({ error: "Username already exists. Please choose a different one." })
+    } else {
+      // For other errors
+      res.status(400).json({ error: error.message })
+    }
   }
 }
+
 
 module.exports = { signupUser, loginUser }
